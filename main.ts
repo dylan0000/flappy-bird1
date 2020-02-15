@@ -3567,10 +3567,10 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 let projectile: Sprite = null
 let image2: Image = null
-let once = false
 let list: Image[] = []
 let projectile2: Sprite = null
 let array_value = 0
+let once = false
 let levels1 = false
 let gap = 0
 let mySprite: Sprite = null
@@ -3599,6 +3599,7 @@ gap = 0
 let speed = -45
 info.setScore(0)
 levels1 = true
+once = false
 array_value = 1
 game.onUpdateInterval(1500, function () {
     if (levels1 == true) {
@@ -3633,8 +3634,10 @@ game.onUpdate(function () {
     }
 })
 game.onUpdate(function () {
-    if (once == false) {
-        projectile2.destroy()
+    if (levels1 == false) {
+        if (once == false) {
+            projectile2.destroy()
+        }
     }
 })
 game.onUpdateInterval(500, function () {
@@ -3644,11 +3647,11 @@ game.onUpdateInterval(500, function () {
         gap = 3
         all_trees()
         last()
-    }
-    if (info.score() >= 40) {
-        levels1 = true
-        once = false
-        gap = 0
-        once = true
+        if (info.score() >= 40) {
+            levels1 = true
+            once = false
+            gap = 0
+            once = true
+        }
     }
 })
