@@ -1,7 +1,17 @@
 function last () {
-    projectile2 = sprites.createProjectileFromSide(list[list.length - array_value], -50, 0)
+    projectile2 = sprites.createProjectileFromSide(list[list.length - 1], -50, 0)
     projectile2.y = 50
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
+    game.over(false)
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (levels1 == true) {
+        mySprite.vy = -100
+    } else if (levels1 == false) {
+        mySprite.vy = -50
+    }
+})
 function all_trees () {
     if (gap == 0) {
         list = [img`
@@ -3555,22 +3565,10 @@ c c c c c c c c c c c c c c c c
 `]
     }
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
-    game.over(false)
-})
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (levels1 == true && once == false) {
-        mySprite.vy = -100
-    } else if (once == true || levels1 == false) {
-        mySprite.vy = -50
-    }
-})
 let projectile: Sprite = null
 let image2: Image = null
 let list: Image[] = []
 let projectile2: Sprite = null
-let array_value = 0
-let once = false
 let levels1 = false
 let gap = 0
 let mySprite: Sprite = null
@@ -3593,18 +3591,23 @@ mySprite = sprites.create(img`
 . . . . . . . . . . . . . . . . 
 `, SpriteKind.Player)
 mySprite.ay = 300
-all_trees()
 mySprite.setFlag(SpriteFlag.StayInScreen, true)
 gap = 0
 let speed = -45
 info.setScore(0)
 levels1 = true
-once = false
-array_value = 1
+all_trees()
 game.onUpdateInterval(1500, function () {
     if (levels1 == true) {
         all_trees()
         info.changeScoreBy(1)
+        if (gap == 0) {
+            image2 = list[Math.randomRange(0, list.length - 1)]
+        } else if (gap == 1) {
+            image2 = list[Math.randomRange(0, list.length - 1)]
+        } else if (gap == 2) {
+            image2 = list[Math.randomRange(0, list.length - 1)]
+        }
         if (info.score() == 10) {
             gap = 1
             speed = -55
@@ -3614,18 +3617,16 @@ game.onUpdateInterval(1500, function () {
         } else if (info.score() == 25) {
             levels1 = false
         }
-        if (gap == 0) {
-            image2 = list[Math.randomRange(0, list.length - 1)]
-        } else if (gap == 1) {
-            image2 = list[Math.randomRange(0, list.length - 1)]
-        } else if (gap == 2) {
-            image2 = list[Math.randomRange(0, list.length - 1)]
-        }
         projectile = sprites.createProjectileFromSide(image2, speed, 0)
         projectile.y = 65
-        if (info.score() == 25) {
-            projectile.destroy()
-        }
+    }
+    if (info.score() == 25) {
+        projectile.destroy()
+    }
+})
+game.onUpdate(function () {
+    if (0 == false) {
+        projectile2.destroy()
     }
 })
 game.onUpdate(function () {
@@ -3633,25 +3634,15 @@ game.onUpdate(function () {
         game.over(false)
     }
 })
-game.onUpdate(function () {
-    if (levels1 == false) {
-        if (once == false) {
-            projectile2.destroy()
-        }
-    }
-})
 game.onUpdateInterval(500, function () {
     if (levels1 == false) {
-        once = true
         info.changeScoreBy(1)
         gap = 3
         all_trees()
         last()
-        if (info.score() >= 40) {
-            levels1 = true
-            once = false
-            gap = 0
-            once = true
-        }
+    }
+    if (info.score() >= 40) {
+        levels1 = true
+        gap = 0
     }
 })

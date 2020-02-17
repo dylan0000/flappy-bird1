@@ -2,7 +2,8 @@
     "name": "Flappy bird",
     "description": "",
     "dependencies": {
-        "device": "*"
+        "device": "*",
+        "color-coded-tilemap": "*"
     },
     "files": [
         "main.blocks",
